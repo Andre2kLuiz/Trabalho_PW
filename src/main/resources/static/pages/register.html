@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/styles/pages/register.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="shortcut icon" href="/assets/styles/img/5758879.png" type="image/x-icon">
+    <title>Login Screen</title>
+</head>
+<body>
+    <div class="wrapper">
+        <form action="/index" method="post">
+            <h1>Register</h1>
+            <div class="input-box">
+                <input type="text" placeholder="UserName" name="nomeR" required>
+                <i class='bx bxs-user' ></i>
+            </div>
+            <div class="input-box">
+                <input type="email" placeholder="Email" name="emailR" required>
+                <i class='bx bxs-envelope'></i>
+            </div>
+            <div class="input-box">
+                <input type="password" placeholder="Password" name="senhaR" required>
+                <i class='bx bxs-lock-alt' ></i>
+            </div>
+            <button type="submit" class="btn">Submit</button>
+
+            <form action="/index" method="post">
+                <div class="register-link">
+                    <p>You have a accont: <a href="/index.html" class="btn-return-log">Login</a></p>
+                </div>
+            </form>
+        </form>
+    </div>
+</body>
+</html>

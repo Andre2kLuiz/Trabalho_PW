@@ -1,0 +1,12 @@
+@import url('index.css');
+
+.register-link .btn-return-log {
+    border: none;
+    background: transparent;
+    color: blue;
+}
+
+.register-link .btn-return-log:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}

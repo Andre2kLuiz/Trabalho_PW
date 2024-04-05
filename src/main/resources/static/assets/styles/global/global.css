@@ -1,0 +1,11 @@
+@import url('/src/main/resources/static/assets/styles/global/fonts.css');
+@import url('elements.css');
+@import url('variables.css');
+
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
