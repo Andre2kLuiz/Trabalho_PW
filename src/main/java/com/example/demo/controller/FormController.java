@@ -17,7 +17,7 @@ import lombok.var;
 @Controller
 public class FormController {
 
-    @RequestMapping(value = "home", method = RequestMethod.POST)
+    @RequestMapping(value = "/home", method = RequestMethod.POST)
     public void doLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
         var login = request.getParameter("login");
         var senha = request.getParameter("senha");
@@ -30,12 +30,27 @@ public class FormController {
 
         if(log != null && login.equals(log.getNome()) && senha.equals(log.getSenha())) {
             HttpSession session = request.getSession();
-            session.setAttribute("Logado", true);
-            response.sendRedirect("home.html");
+            session.setAttribute("logado", log.getNome());
+            response.sendRedirect("home.html" + "?msg=BemVindo" + log.getNome());
         }else {
-            response.sendRedirect("index.html?msg=Login falhou");
+            response.sendRedirect("index.html?msg=Loginfalhou");
         }
                 
+    }
+
+    @RequestMapping(value ="/home", method = RequestMethod.GET)
+    public void homePage(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession();
+        Boolean logado = (Boolean) session.getAttribute("logado");
+
+        if (logado != null && logado) {
+            
+            response.sendRedirect("home.html");
+            
+        } else {
+            
+            response.sendRedirect("index.html?msg=Façaloginprimeiro");
+        }
     }
 
     @RequestMapping("/logout")
