@@ -1,13 +1,16 @@
 package com.example.demo.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.example.demo.DAO.LojistaDAO;
+import com.example.demo.DAO.ProdutoDAO;
 import com.example.demo.model.Lojista;
+import com.example.demo.model.Produto;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -37,12 +40,23 @@ public class FormController {
             writer.println("<html>" + "<body>");
             writer.println("<h1>Home - Lojista</h1>");
             writer.println("<a href='/cadatroProduto'>Cadastra-Produto</a>" + "<br>" + "<br>");
-            writer.println("<a href='#'>Exibe-Produto</a>" + "<br>" + "<br>");
+            writer.println("<a href='/lista'>Exibe-Produto</a>" + "<br>" + "<br>");
             writer.println("<a href='/logout'>Deslogar</a>");
         }else {
             response.sendRedirect("index.html?msg=Loginfalhou");
         }
                 
+    }
+
+    @RequestMapping(value ="/volta", method = RequestMethod.GET)
+    public void voltar(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        var writer = response.getWriter();
+
+            writer.println("<html>" + "<body>");
+            writer.println("<h1>Home - Lojista</h1>");
+            writer.println("<a href='/cadatroProduto'>Cadastra-Produto</a>" + "<br>" + "<br>");
+            writer.println("<a href='/lista'>Exibe-Produto</a>" + "<br>" + "<br>");
+            writer.println("<a href='/logout'>Deslogar</a>");
     }
 
     @RequestMapping(value ="/home", method = RequestMethod.GET)
@@ -68,8 +82,58 @@ public class FormController {
         response.sendRedirect("index.html?msg=Usuario deslogado");
     }
 
-    @RequestMapping("/lista")
+    @RequestMapping(value="/lista", method = RequestMethod.GET)
     public void listarProduto(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        ProdutoDAO pd = new ProdutoDAO();
+        List<Produto> a = pd.buscarTodosProdutos();
+
+        var writer = response.getWriter();
+        writer.println("<html>" + "<head></head>" + "<body>");
+        
+
+        for(int i  = 0; i < a.size(); i++){
+
+            writer.println("<table border='1'>");
+            writer.println("<tr>");
+            writer.println("<td>Nome: </td><td>" + a.get(i).getNome() + "</td>");
+            writer.println("</tr>");
+            writer.println("<tr>");
+            writer.println("<td>Descrição: </td><td>" + a.get(i).getDescricao() + "</td>");
+            writer.println("</tr>");
+            writer.println("<tr>");
+            writer.println("<td>Preço: </td><td>" + a.get(i).getPreco() + "</td>");
+            writer.println("</tr>");
+            writer.println("<tr>");
+            writer.println("<td>Estoque: </td><td>" + a.get(i).getEstoque() + "</td>");
+            writer.println("</tr>");
+            writer.println("<br>");
+            writer.println("</table>");
+            
+        }
+
+        
+        writer.println("</body></html>");
+    }
+
+    @RequestMapping(value = "/doCadastro", method = RequestMethod.POST)
+    public void doCadastro(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        var nome = request.getParameter("nome");
+        var desc = request.getParameter("desc");
+        var precoStr = request.getParameter("preco");
+        var estoqueStr = request.getParameter("estoque");
+
+        int preco = Integer.parseInt(precoStr);
+        int estoque = Integer.parseInt(estoqueStr);
+
+        Produto p = new Produto(preco, nome, desc, estoque);
+        ProdutoDAO pd = new ProdutoDAO();
+
+        if(pd.buscarProdutoPorId(nome) == null) {
+            pd.cadastrarProduto(p);
+            response.sendRedirect("/cadatroProduto" + "?msg=ProdutoCadastrado");
+        }else {
+            response.sendRedirect("/cadatroProduto" + "?msg=ProdutoJaExiste");
+        }
         
     }
 
@@ -77,15 +141,16 @@ public class FormController {
     public void cadastrarProduto(HttpServletRequest request, HttpServletResponse response) throws IOException {
         var writer = response.getWriter();
         
-        writer.println("<html>" + "<head><link rel='stylesheet' href='/assets/styles/pages/index.css'></head>" + "<body>");
-        writer.println("<form action='/home' method='GET'>");
+        writer.println("<html>" + "<head></head>" + "<body>");
+        writer.println("<form action='/doCadastro' method='POST'>");
         writer.println("<div class='input-box-II'>");
-        writer.println("<h1>Cadastro</h1>");
-        writer.println("<input type='text' placeholder='Nome' id='username' name='login' required>" + "<br>" + "<br>");
-        writer.println("<input type='text' placeholder='Descrição' id='username' name='login' required>"  + "<br>" + "<br>");
-        writer.println("<input type='number' placeholder='Preço' id='username' name='login' required>"  + "<br>" + "<br>");
-        writer.println("<input type='number' placeholder='Estoque' id='username' name='login' required>"  + "<br>" + "<br>");
+        writer.println("<h1>Cadastro - Produtos</h1>");
+        writer.println("<input type='text' placeholder='Nome' id='username' name='nome' required>" + "<br>" + "<br>");
+        writer.println("<input type='text' placeholder='Descrição' id='username' name='desc' required>"  + "<br>" + "<br>");
+        writer.println("<input type='number' placeholder='Preço' id='username' name='preco' required>"  + "<br>" + "<br>");
+        writer.println("<input type='number' placeholder='Estoque' id='username' name='estoque' required>"  + "<br>" + "<br>");
         writer.println("<button type='submit' class='btn'>Cadastrar</button>"  + "<br>" + "<br>");
+        writer.println("<a href='/volta'>Voltar</a>"  + "<br>" + "<br>");
         writer.println("<div>");
         writer.println("</form>");
 

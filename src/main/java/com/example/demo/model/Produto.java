@@ -1,9 +1,9 @@
 package com.example.demo.model;
 
 public class Produto {
-    public Produto(int id, int preco, String nome, String descricao, int estoque) {
+    public Produto(int preco, String nome, String descricao, int estoque) {
         super();
-        this.id = id;
+        //this.id = id;
         this.preco = preco;
         this.nome = nome;
         this.Descricao = descricao;
@@ -13,7 +13,7 @@ public class Produto {
         int preco;
         String nome;
         String Descricao;
-        int estoque;
+        int estoque;       
         public int getId() {
         return id;
         }
