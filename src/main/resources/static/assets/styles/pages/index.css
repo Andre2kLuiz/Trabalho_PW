@@ -142,3 +142,18 @@ body {
 .register-link p a:hover {
     text-decoration: underline;
 }
+
+.input-box-II h1 {
+    color: #fff;
+    padding-bottom: 50px;
+}
+
+.input-box-II {
+    width: 300px;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    
+}
