@@ -27,7 +27,7 @@ public class ProdutoDAO {
         }
     }
 
-    public Produto buscarProdutoPorId(String nome) {
+    public Produto buscarProdutoPorNome(String nome) {
         try (Connection connection = Conexao.getConnection();
              PreparedStatement stmt = connection.prepareStatement("SELECT * FROM produtos WHERE nome = ?")) {
             stmt.setString(1, nome);
@@ -40,8 +40,25 @@ public class ProdutoDAO {
         } catch (SQLException | URISyntaxException e) {
             e.printStackTrace();
         }
-        return null; // Produto não encontrado
+        return null; 
     }
+
+    public Produto buscarProdutoPorId(int id) {
+        try (Connection connection = Conexao.getConnection();
+             PreparedStatement stmt = connection.prepareStatement("SELECT * FROM produtos WHERE id = ?")) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+    
+            if (rs.next()) {
+                return new Produto(rs.getInt("preco"),
+                        rs.getString("nome"), rs.getString("descricao"), rs.getInt("estoque"));
+            }
+        } catch (SQLException | URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return null; 
+    }
+    
 
     public List<Produto> buscarTodosProdutos() {
         List<Produto> produtos = new ArrayList<>();
@@ -58,4 +75,5 @@ public class ProdutoDAO {
         }
         return produtos;
     }
+
 }
