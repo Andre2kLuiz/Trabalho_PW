@@ -7,8 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.example.demo.DAO.ClienteDAO;
 import com.example.demo.DAO.LojistaDAO;
 import com.example.demo.DAO.ProdutoDAO;
+import com.example.demo.model.Cliente;
 import com.example.demo.model.Lojista;
 import com.example.demo.model.Produto;
 
@@ -28,7 +30,11 @@ public class FormController {
         Lojista log = new Lojista();
         LojistaDAO logDAO = new LojistaDAO();
 
+        Cliente logC = new Cliente();
+        ClienteDAO logCDAO = new ClienteDAO();
+
         log = logDAO.buscarPorNomeESenha(login, senha.toString());
+        logC = logCDAO.buscarPorNomeESenha(login, senha.toString());
 
 
         if(log != null && login.equals(log.getNome()) && senha.equals(log.getSenha())) {
@@ -41,6 +47,17 @@ public class FormController {
             writer.println("<h1>Home - Lojista</h1>");
             writer.println("<a href='/cadatroProduto'>Cadastra-Produto</a>" + "<br>" + "<br>");
             writer.println("<a href='/lista'>Exibe-Produto</a>" + "<br>" + "<br>");
+            writer.println("<a href='/logout'>Deslogar</a>");
+
+        }else if(logC != null && login.equals(logC.getNome()) && senha.equals(logC.getSenha())){
+            HttpSession session = request.getSession();
+            session.setAttribute("logado", logC.getNome());
+
+            var writer = response.getWriter();
+
+            writer.println("<html>" + "<body>");
+            writer.println("<h1>Home - Cliente</h1>");
+            writer.println("<a href='/listaCli'>Lista de Produtos</a>" + "<br>" + "<br>");
             writer.println("<a href='/logout'>Deslogar</a>");
         }else {
             response.sendRedirect("index.html?msg=Loginfalhou");
@@ -57,6 +74,16 @@ public class FormController {
             writer.println("<a href='/cadatroProduto'>Cadastra-Produto</a>" + "<br>" + "<br>");
             writer.println("<a href='/lista'>Exibe-Produto</a>" + "<br>" + "<br>");
             writer.println("<a href='/logout'>Deslogar</a>");
+    }
+
+    @RequestMapping(value ="/voltaCli", method = RequestMethod.GET)
+    public void voltarCliente(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        var writer = response.getWriter();
+
+        writer.println("<html>" + "<body>");
+        writer.println("<h1>Home - Cliente</h1>");
+        writer.println("<a href='/listaCli'>Lista de Produtos</a>" + "<br>" + "<br>");
+        writer.println("<a href='/logout'>Deslogar</a>");
     }
 
     @RequestMapping(value ="/home", method = RequestMethod.GET)
@@ -89,10 +116,9 @@ public class FormController {
 
         var writer = response.getWriter();
         writer.println("<html>" + "<head></head>" + "<body>");
-        
+        writer.println("<a href='/volta'>Voltar</a>" + "<br>" + "<br>");
 
-        for(int i  = 0; i < a.size(); i++){
-
+        for(int i  = 0; i < a.size(); i++){            
             writer.println("<table border='1'>");
             writer.println("<tr>");
             writer.println("<td>Nome: </td><td>" + a.get(i).getNome() + "</td>");
@@ -110,8 +136,38 @@ public class FormController {
             writer.println("</table>");
             
         }
+ 
+        writer.println("</body></html>");
+    }
 
-        
+    @RequestMapping(value="/listaCli", method = RequestMethod.GET)
+    public void listarProdutoCli(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        ProdutoDAO pd = new ProdutoDAO();
+        List<Produto> a = pd.buscarTodosProdutos();
+
+        var writer = response.getWriter();
+        writer.println("<html>" + "<head></head>" + "<body>");
+        writer.println("<a href='/voltaCli'>Voltar</a>" + "<br>" + "<br>");
+
+        for(int i  = 0; i < a.size(); i++){            
+            writer.println("<table border='1'>");
+            writer.println("<tr>");
+            writer.println("<td>Nome: </td><td>" + a.get(i).getNome() + "</td>");
+            writer.println("</tr>");
+            writer.println("<tr>");
+            writer.println("<td>Descrição: </td><td>" + a.get(i).getDescricao() + "</td>");
+            writer.println("</tr>");
+            writer.println("<tr>");
+            writer.println("<td>Preço: </td><td>" + a.get(i).getPreco() + "</td>");
+            writer.println("</tr>");
+            writer.println("<tr>");
+            writer.println("<td>Estoque: </td><td>" + a.get(i).getEstoque() + "</td>");
+            writer.println("</tr>");
+            writer.println("<br>");
+            writer.println("</table>");
+            
+        }
+ 
         writer.println("</body></html>");
     }
 

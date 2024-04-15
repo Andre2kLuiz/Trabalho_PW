@@ -8,7 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.example.demo.DAO.ClienteDAO;
 import com.example.demo.DAO.LojistaDAO;
+import com.example.demo.model.Cliente;
 import com.example.demo.model.Lojista;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,6 +34,25 @@ public class registerController {
             response.sendRedirect("/index.html");
         }else{
             response.sendRedirect("/pages/register.html");
+        }   
+    }
+
+    @SuppressWarnings("unused")
+    @RequestMapping(value = "/cadCliente", method = RequestMethod.POST)
+    public void doCadastrarCliente(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, URISyntaxException {
+        var login = request.getParameter("nomeR");
+        var email = request.getParameter("emailR");
+        var senha = request.getParameter("senhaR");
+
+        ClienteDAO cd = new ClienteDAO();
+
+        Cliente c = new Cliente(login, email, senha.toString());
+
+        if(c != null){
+            cd.adicionar(c);
+            response.sendRedirect("/index.html");
+        }else{
+            response.sendRedirect("/pages/register.html" + "?msg=ErroNoCadastro");
         }   
     }
 }
