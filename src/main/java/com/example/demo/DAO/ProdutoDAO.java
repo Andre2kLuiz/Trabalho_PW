@@ -34,7 +34,7 @@ public class ProdutoDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                return new Produto(rs.getInt("preco"),
+                return new Produto(rs.getInt("id"), rs.getInt("preco"),
                         rs.getString("nome"), rs.getString("descricao"), rs.getInt("estoque"));
             }
         } catch (SQLException | URISyntaxException e) {
@@ -50,7 +50,7 @@ public class ProdutoDAO {
             ResultSet rs = stmt.executeQuery();
     
             if (rs.next()) {
-                return new Produto(rs.getInt("preco"),
+                return new Produto(rs.getInt(id), rs.getInt("preco"),
                         rs.getString("nome"), rs.getString("descricao"), rs.getInt("estoque"));
             }
         } catch (SQLException | URISyntaxException e) {
@@ -67,7 +67,7 @@ public class ProdutoDAO {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                produtos.add(new Produto(rs.getInt("preco"),
+                produtos.add(new Produto(rs.getInt("id"), rs.getInt("preco"),
                         rs.getString("nome"), rs.getString("descricao"), rs.getInt("estoque")));
             }
         } catch (SQLException | URISyntaxException e) {

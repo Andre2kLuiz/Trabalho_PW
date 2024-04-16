@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-
 import com.example.demo.DAO.ProdutoDAO;
 import com.example.demo.model.Produto;
 
@@ -30,7 +29,7 @@ public class VerCarrinhoController {
         System.out.println("Carrinho do cliente: " + carrinho);
 
         writer.println("<html><body>");
-        writer.println("<a href='/voltaCli'>Voltar</a>");
+        writer.println("<a href='/listaCli'>Voltar</a>");
         writer.println("<h1>Carrinho de Compras</h1>");
         writer.println("<table border='1'>");
         writer.println("<tr><th>Nome</th><th>Preço</th><th>Quantidade</th><th>Remover</th></tr>");
@@ -51,7 +50,7 @@ public class VerCarrinhoController {
                 writer.println("<td>" + produto.getNome() + "</td>");
                 writer.println("<td>" + produto.getPreco() + "</td>");
                 writer.println("<td>" + quantity + "</td>");
-                writer.println("<td>" + "<a href='/addCarrinho?produtoId=" + produto.getId() + "&comando=remove'>Remover</a>");
+                writer.println("<td>" + "<a href='/verCarrinho?produtoId=" + produto.getId() + "&comando=remove'>Remover</a>");
                 writer.println("</tr>");
             }
         } else {

@@ -30,9 +30,10 @@ public class CarrinhoController {
         }
 
         // Adicionar ou remover o produto do carrinho
-        if ("add".equals(comando)) {
+        String command = request.getParameter("comando");
+        if (command.equals("add")) {
             carrinho.put(produtoId, carrinho.getOrDefault(produtoId, 0) + 1);
-        } else if ("remove".equals(comando)) {
+        } else if (command.equals("remove")) {
             if (carrinho.containsKey(produtoId)) {
                 int quantidade = carrinho.get(produtoId);
                 if (quantidade > 1) {
@@ -50,7 +51,7 @@ public class CarrinhoController {
         salvarCarrinhoNosCookies(carrinho, response);
 
         // Redirecionar de volta à página de lista de produtos
-        response.sendRedirect("listaProdutos.html");
+        response.sendRedirect("/listaCli");
     }
 
     private void salvarCarrinhoNosCookies(Map<Integer, Integer> carrinho, HttpServletResponse response) {

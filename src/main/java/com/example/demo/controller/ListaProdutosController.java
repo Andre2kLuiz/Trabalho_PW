@@ -55,10 +55,11 @@ public class ListaProdutosController {
         writer.println("<td> Nome </td>" + "<td> Descrição </td>" + "<td> preço </td>" + "<td> Estoque </td>" + "<td> Carrinho </td>");
         writer.println("</tr>");
 
-        for(int i  = 0; i < a.size(); i++){            
+        for(int i  = 0; i < a.size(); i++){  
+
             writer.println("<tr>");
-            writer.println("<td>" + a.get(i).getNome() + "</td><td>" + a.get(i).getDescricao() + "</td><td>" + a.get(i).getPreco() + "</td><td>" + a.get(i).getEstoque() + "</td><td>" + "<a href='#'>Adicionar</a></td>");
-            writer.println("</tr>");       
+            writer.println("<td>" + a.get(i).getNome() + "</td><td>" + a.get(i).getDescricao() + "</td><td>" + a.get(i).getPreco() + "</td><td>" +  a.get(i).getEstoque() + "</td><td>" + "<a href='/addCarrinho?produtoId=" + a.get(i).getId() + "&comando=add'>Adicionar</a> + </td>");
+            writer.println("</tr>");  
             
         }
  

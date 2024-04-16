@@ -1,13 +1,21 @@
 package com.example.demo.model;
 
 public class Produto {
-    public Produto(int preco, String nome, String descricao, int estoque) {
+    public Produto(int id, int preco, String nome, String descricao, int estoque) {
         super();
-        //this.id = id;
+        this.id = id;
         this.preco = preco;
         this.nome = nome;
         this.Descricao = descricao;
         this.estoque = estoque;
+        }
+        public Produto(int preco, String nome, String desc, int estoque) {
+            // Defina o 'id' como -1 ou outro valor padrão, se necessário
+            this.id = -1;
+            this.preco = preco;
+            this.nome = nome;
+            this.Descricao = desc;
+            this.estoque = estoque;
         }
         int id;
         int preco;
