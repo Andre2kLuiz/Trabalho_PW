@@ -20,7 +20,7 @@ public class CarrinhoController {
         HttpSession session = request.getSession(true); // Obtém a sessão do usuário ou cria uma nova se não existir
 
         // Obtém o ID do cliente da sessão (você precisa implementar a lógica para armazenar o ID do cliente na sessão quando ele fizer login)
-        Integer clienteId = (Integer) session.getAttribute("clienteId");
+        var clienteId = session.getAttribute("logado");
 
         // Verificar se o carrinho já existe na sessão do usuário
         @SuppressWarnings("unchecked")

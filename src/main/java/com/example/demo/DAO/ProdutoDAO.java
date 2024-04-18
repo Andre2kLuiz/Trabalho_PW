@@ -6,8 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
-
 import com.example.demo.Conexao;
 import com.example.demo.model.Produto;
 
@@ -60,8 +58,8 @@ public class ProdutoDAO {
     }
     
 
-    public List<Produto> buscarTodosProdutos() {
-        List<Produto> produtos = new ArrayList<>();
+    public ArrayList<Produto> buscarTodosProdutos() {
+        ArrayList<Produto> produtos = new ArrayList<>();
         try (Connection connection = Conexao.getConnection();
              PreparedStatement stmt = connection.prepareStatement("SELECT * FROM produtos")) {
             ResultSet rs = stmt.executeQuery();
@@ -74,6 +72,32 @@ public class ProdutoDAO {
             e.printStackTrace();
         }
         return produtos;
+    }
+
+    public void removerDoEstoque(String produtoId, int quantidade) {
+        try (Connection connection = Conexao.getConnection();
+             PreparedStatement stmt = connection.prepareStatement("UPDATE produtos SET estoque = estoque - ? WHERE nome = ?")) {
+            
+            stmt.setInt(1, quantidade);
+            stmt.setString(2, produtoId);
+
+            stmt.executeUpdate();
+        } catch (SQLException | URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void adicionarAoEstoque(String produtoId, int quantidade) {
+        try (Connection connection = Conexao.getConnection();
+             PreparedStatement stmt = connection.prepareStatement("UPDATE produtos SET estoque = estoque + ? WHERE nome = ?")) {
+            
+            stmt.setInt(1, quantidade);
+            stmt.setString(2, produtoId);
+
+            stmt.executeUpdate();
+        } catch (SQLException | URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 
 }

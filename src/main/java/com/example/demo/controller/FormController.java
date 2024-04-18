@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.io.IOException;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,19 +38,20 @@ public class FormController {
 
         if(log != null && login.equals(log.getNome()) && senha.equals(log.getSenha())) {
             HttpSession session = request.getSession();
-            session.setAttribute("logado", true);
+            session.setAttribute("logado", log.getNome());
             
             var writer = response.getWriter();
 
             writer.println("<html>" + "<body>");
             writer.println("<h1>Home - Lojista</h1>");
+            writer.println("<h2>Bem Vindo " + log.getNome() + "</h1>");
             writer.println("<a href='/cadatroProduto'>Cadastra-Produto</a>" + "<br>" + "<br>");
             writer.println("<a href='/lista'>Exibe-Produto</a>" + "<br>" + "<br>");
             writer.println("<a href='/logout'>Deslogar</a>");
 
         }else if(logC != null && login.equals(logC.getNome()) && senha.equals(logC.getSenha())){
             HttpSession session = request.getSession();
-            session.setAttribute("logado", true);
+            session.setAttribute("logado", logC.getNome());
 
             var writer = response.getWriter();
 
@@ -65,6 +67,8 @@ public class FormController {
 
     @RequestMapping(value ="/volta", method = RequestMethod.GET)
     public void voltar(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession(false);
+        session.getAttribute("logado");
 
         var writer = response.getWriter();
             writer.println("<html>" + "<body>");
@@ -76,6 +80,8 @@ public class FormController {
 
     @RequestMapping(value ="/voltaCli", method = RequestMethod.GET)
     public void voltarCliente(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession(false);
+        session.getAttribute("logado");
         var writer = response.getWriter();
 
         writer.println("<html>" + "<body>");

@@ -55,5 +55,9 @@ public class Produto {
         public void diminuiEstoque() {
         this.estoque--;
         }
+        public Produto get(int i) {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'get'");
+        }
         
 }

@@ -18,17 +18,17 @@ public class Carrinho {
             this.produtos = produtos;
         }
 
-        public Produto getProduto (int id){
+        public Produto getProduto (String produtoId){
             Produto mp = null;
             for (Produto p : produtos){
-                if (p.getId() == id){
+                if (p.getNome() == produtoId){
                 return p;
                 }
             }
             return mp;
         }
 
-        public void removeProduto (int id){
+        public void removeProduto (String id){
             Produto p = getProduto(id);
             produtos.remove(p);
         }
